@@ -1,0 +1,151 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam linetype ortho
+
+package datos {
+  class Fecha {
+    - dia : Integer
+    - mes : Integer
+    - anio : Integer
+    + Fecha(String)
+    + Fecha()
+    + Fecha(int,int,int)
+    + obtenerFechaSistema() : Fecha
+    + calcularEdadMeses(Fecha) : int
+    + calcularEdadDias(Fecha) : int
+    + toString() : String
+  }
+
+  interface Comparable {
+    + esMenor(Object) : boolean
+    + esMayor(Object) : boolean
+    + esIgual(Object) : boolean
+  }
+
+  class Mama implements Comparable {
+    - id : String
+    - nombre : String
+    - edad : int
+    - fechaNacimiento : Fecha
+    - hijos : ListaDoblementeEnlazada<Hijo>
+    + Mama(id,nombre,edad,fecha)
+    + Mama(id,nombre,edad,fecha,hijos)
+    + getters/setters
+    + esMenor(Object) : boolean
+    + esMayor(Object) : boolean
+    + esIgual(Object) : boolean
+    + toString() : String
+  }
+
+  class Hijo {
+    - id : String
+    - nombre : String
+    - edadMeses : int
+    - edadDias : int
+    - fechaNacimiento : Fecha
+    - idMama : String
+    + Hijo()
+    + Hijo(id,nombre,edadDias,edadMeses,fecha)
+    + Hijo(id,nombre,edadDias,edadMeses,fecha,idMama)
+    + getters/setters
+    + toString() : String
+  }
+}
+
+package listaDoble {
+  class ListaDoblementeEnlazada<T> {
+    - cabeza : Nodo<T>
+    - tamanio : int
+    + agregar(T)
+    + insertar(T,int)
+    + getValor(int) : T
+    + remover(int)
+    + limpiar()
+    + mostrar()
+  }
+}
+
+package arbolAVL {
+  class ArbolAVL {
+    - raiz : Nodo
+    + insertar(Object)
+    + eliminar(Object)
+    + buscar(Object) : Nodo
+    + inorden()
+    + preorden()
+    + postorden()
+    + inordenIterativo()
+    + preordenIterativo()
+    + postordenIterativo()
+    + recorridoPorNivel()
+  }
+  class Nodo {
+    - valor : Comparable
+    - izquierdo : Nodo
+    - derecho : Nodo
+    - fe : int
+    + getters/setters
+  }
+}
+
+package negocios {
+  class Lactario {
+    - listaHijos : ListaDoblementeEnlazada<Hijo>
+    - abo : ArbolAVL
+    - ht : Map<String,Mama>
+    - pilaUltimosIds : Pila<String>
+    + Lactario()
+    + agregar_mama(id,nombre,edad,fecha,hijos) : boolean
+    + buscarMama(id) : Mama
+    + buscaHijo(id) : Hijo
+    + agregar_hijos(id,nombre,edadMeses,edadDias,fecha,idMama,nombreMama) : boolean
+    + getHijos(idMama) : ListaDoblementeEnlazada<Hijo>
+    + buscarMamaPorNombreParcial(nombre) : ListaDoblementeEnlazada<Mama>
+    + eliminar_mama(id) : boolean
+    + eliminar_hijo(id) : boolean
+    + eliminar_hijo_mama(idMama) : boolean
+    + buscar_mama(id,nombre,edad,fecha) : Mama
+    + recorrer_arbolAVL()
+    + obtenerListaLactantes() : ListaDoblementeEnlazada<Hijo>
+    + obtenerListaMamas() : ListaDoblementeEnlazada<Mama>
+    + getUltimoIdCapturado() : String
+    + getUltimaMama() : Mama
+    + guardarDatos()
+  }
+}
+package uI {
+  class MenuOpciones {
+    - lact : Lactario
+    - fechaActual : Fecha
+    + agregar_mama()
+    + eliminar_mama()
+    + editar_mama()
+    + buscar_mama_id()
+    + buscarMamaPorNombreParcial()
+    + mostrar_arbol_mamas()
+    + mostrar_lista_mamas()
+    + mostrar_lista_lactantes()
+    + mostrarTodasMamasConOrdenamiento()
+    + agregar_hijo_a_mama()
+    + eliminar_hijo()
+    + ver_ultimo_id_mama()
+  }
+}
+
+' RELACIONES
+Mama "1" o-- "*" Hijo : contiene
+Hijo --> Mama : idMama (referencia indirecta)
+Lactario "1" *-- ArbolAVL : administra
+Lactario "1" *-- ListaDoblementeEnlazada : listaHijos
+Lactario "1" *-- Mama : ht (Map/HashMap)
+Lactario "1" *-- Pila : pilaUltimosIds
+MenuOpciones o-- Lactario : usa
+Mama --> Fecha
+Hijo --> Fecha
+ArbolAVL "*" o-- Nodo
+Nodo --> Comparable
+Mama ..|> Comparable
+
+@enduml

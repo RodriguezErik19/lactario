@@ -1,0 +1,7 @@
+"00101","Hija Ana Lopez","04","meses","11","dias","1/1/2024","001"
+"00201","Gemelo1 Cecilia Buelna","01","meses","00","dias","24/3/2024","002"
+"00202","Gemelo 2Buelna","01","meses","17","dias","24/3/2024","002"
+"00301","Hijo Bertha Armenta","00","meses","05","dias","6/5/2024","003"
+"00401","Hijo Patricia Reyes","03","meses","12","dias","30/1/2024","004"
+"00501","Hija Zulema Sanchez","00","meses","11","dias","30/4/2024","005"
+"006","hijo","136","meses","300","dias","11/11/2000","006"
